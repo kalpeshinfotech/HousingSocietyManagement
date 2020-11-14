@@ -1,0 +1,10 @@
+update 
+maintenance set total="maintenance_tb"."total"
+FROM (
+select 
+SUM("maintenance_lines"."cost") as "total",
+"maintenance_lines"."maintenance_id" as "maintenance_id"
+from "maintenance_lines"
+group by "maintenance_lines"."maintenance_id"
+) as "maintenance_tb" 
+where "maintenance"."id" = "maintenance_tb"."maintenance_id" 

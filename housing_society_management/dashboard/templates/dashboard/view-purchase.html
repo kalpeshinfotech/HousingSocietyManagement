@@ -1,0 +1,72 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+{{ block.super }}
+<div class="app-title">
+  <div>
+    <h1><i class="fa fa-file-text-o"></i> Purchase Order</h1>
+    <p>A Printable Purchase Order Format</p>
+  </div>
+  <ul class="app-breadcrumb breadcrumb">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:purchase_order_table'%}">Purchase Order</a></li>
+    <li class="breadcrumb-item"><a href="#">{{number}}</a></li>
+  </ul>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <section class="invoice">
+        <div class="row mb-4">
+          <div class="col-6">
+            <h2 class="page-header"><i class="fa fa-globe"></i> Purchase Order No : {{number}}</h2>
+          </div>
+          <div class="col-6">
+            <h5 class="text-right">Date : {{po_date}}</h5>
+          </div>
+        </div>
+        <div class="row invoice-info">
+          <div class="col-4">From
+            <address><strong>{{society_name}}</strong><br>{{society_address}}</address>
+          </div>
+          <div class="col-4">To
+            <address><strong>{{vendor_name}}</strong><br>{{vendor_address}}</address>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>Sr</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for line in purchase_order_lines %}
+                 <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ line.product_name }}</td>
+                    <td>{{ line.quantity }}</td>
+                   <td>{{ line.unit_price }}</td>
+                 </tr>
+             {% endfor %}
+              </tbody>
+            </table>
+            <div style="text-align: right">
+              <strong>Special_instructions: </strong>&nbsp &nbsp &nbsp {{notes}}<br/><br/>
+              <strong>Grand Total: </strong> {{grand_total}}
+            </div>
+          </div>
+        </div>
+        <div class="row d-print-none mt-2">
+          <div class="col-12 text-right"><a class="btn btn-primary" href="{% url 'admin:purchase_order_pdf' pk %}" target="_blank"><i class="fa fa-print"></i>Download</a></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %}

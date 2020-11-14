@@ -1,0 +1,13 @@
+{% extends "hsm/base.html" %}
+{% block content %}
+<legend class="border-bottom mb-4" ><font color="White">SOCIETY NOTICE BOARD</font></legend>
+    {% for notice in notices %}
+    <div class="content-section ">
+        <h1>{{notice.title}} </h1>
+        <small class="text-muted">{{notice.date}}</small><br>
+        <div class="content-section">
+            {{notice.description|safe}}
+        </div>
+    </div>
+{% endfor %}
+{% endblock content %}

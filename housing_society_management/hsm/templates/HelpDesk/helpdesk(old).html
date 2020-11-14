@@ -1,0 +1,37 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/main.css' %}">
+<div class="app-title">
+  <div>
+    <h1><i class="fa fa-file-text-o"></i> Compliant Ticket</h1>
+  </div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <section class="invoice">
+        <div class="row mb-4">
+          <div class="col-6">
+            <h5 class="page-header">Ticket No : {{compliant_ticket_no}}</h5>
+          </div>
+          <div class="col-6">
+            <h5 class="text-right">Registered On: {{compliant_date}}</h5>
+          </div>
+        </div>
+        <div class="row invoice-info">
+          <div class="col-4">
+            <h6><strong>Subject: {{compliant_subject}}</strong></h6><br>
+            <h6><strong>Type: {{user_complaint_type}}</strong></h6><br>
+            <h6><strong> Comment: {{compliant_comment}}</strong></h6><br>
+            {% if compliant_upload_file %}
+            <h6><strong> Uploaded file: </strong> Download the file from the app</h6>
+            {% endif %}
+
+<!--            <h6><strong> Uploaded file: </strong>{{compliant_upload_file}}</h6><br>-->
+            <h6><strong>Status: {{compliant_current_status}}</strong></h6><br>
+            <h6><strong> Reply: {{compliant_reply}}</strong></h6><br>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

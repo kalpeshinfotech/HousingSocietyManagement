@@ -1,0 +1,58 @@
+## database setup
+pgadmin-4
+https://tecadmin.net/install-pgadmin4-on-ubuntu/
+
+## python
+sudo apt-get install postgresql
+sudo apt-get install python-psycopg2
+sudo apt-get install libpq-dev
+
+https://dbeaver.io/download/
+
+-- arbitory function
+https://books.agiliq.com/projects/django-orm-cookbook/en/latest/func_expressions.html
+
+Django==2.2.2
+django-bootstrap4==0.0.8
+psycopg2-binary==2.8.3
+pytz==2019.1
+sqlparse==0.3.0
+
+
+https://djangotricks.blogspot.com/2016/12/django-administration-inlines-for-inlines.html
+
+https://medium.com/@hakibenita/how-to-turn-django-admin-into-a-lightweight-dashboard-a0e0bbf609ad
+
+
+https://hackernoon.com/@hakibenita
+
+https://medium.com/@hakibenita/bullet-proofing-django-models-c080739be4e
+
+https://hackernoon.com/5-ways-to-make-django-admin-safer-eb7753698ac8
+
+https://medium.com/@hakibenita/things-you-must-know-about-django-admin-as-your-app-gets-bigger-6be0b0ee9614
+
+https://medium.com/@hakibenita/9-django-tips-for-working-with-databases-beba787ed7d3
+
+https://medium.com/free-code-camp/python-list-comprehensions-vs-generator-expressions-cef70ccb49db
+
+https://medium.com/@hakibenita/how-to-manage-concurrency-in-django-models-b240fed4ee2
+
+https://hackernoon.com/all-you-need-to-know-about-prefetching-in-django-f9068ebe1e60
+
+https://hakibenita.com/bullet-proofing-django-models
+
+https://github.com/alesdotio/django-admin-shortcuts
+
+https://stackoverflow.com/questions/40054325/different-queryset-optimisation-for-list-view-and-change-view-in-django-admin
+
+
+pg_activity
+SELECT * FROM pg_locks pl LEFT JOIN pg_stat_activity psa
+    ON pl.pid = psa.pid;
+
+
+https://stackoverflow.com/questions/17085898/conversion-of-datetime-field-to-string-in-django-queryset-values-list
+
+
+https://www.alibabacloud.com/blog/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04_594319

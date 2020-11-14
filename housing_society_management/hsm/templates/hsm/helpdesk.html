@@ -1,0 +1,25 @@
+{% extends "hsm/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <legend class="border-bottom mb-4">
+        <font color="White">
+            SOCIETY HELPDESK
+        </font>
+           </legend>
+    <div class="content-section col-md-8 mb-0">
+         <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <div class="form-group col-md-6 mb-0">
+                 {{ form.Complaint_type|as_crispy_field}}
+             </div>
+            <div class="form-group col-md-8 mb-0">
+                 {{ form.Comment|as_crispy_field}}
+             </div>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Save</button>
+        </div>
+    </form>
+    </div>
+{% endblock content %}

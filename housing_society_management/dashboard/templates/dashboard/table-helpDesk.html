@@ -1,0 +1,221 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load hsm_tags %}
+{% block content %}
+{{ block.super }}
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i> Help Desk </h1>
+        <p>Society Members</p>
+    </div>
+    <div class="input-group input-daterange  col-md-3 ">
+        <input type="text" autocomplete="off" class="form-control" id="fromDate" value="" placeholder="From Date">
+        <div class="input-group-append"><span class="input-group-text">-</span></div>
+        <input type="text" autocomplete="off" class="form-control" id="toDate" value="" placeholder="To Date">
+        <div class="input-group-append">
+            <button id="id_btn_filter_date" class="btn btn-primary fa fa-filter" onclick="filterByDate()"></button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="sampleTable">
+                        <thead>
+                        <tr>
+                            <th>Ticket No.</th>
+                            <th>Subject</th>
+                            <th>Complaint Type</th>
+                            <th>Status</th>
+                            <th>Submitted Date</th>
+                            <th>Download</th>
+                            {% if request.user|is_secretory %}
+                            <th>Reply</th>
+                            {% endif %}
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+{{ block.super }}
+<!-- Page specific javascripts-->
+<!-- Data table plugin-->
+<link rel="stylesheet" type="text/css"
+      href="{% static 'dashboard/datatables/select/1.3.1/css/select.bootstrap4.min.css' %}"/>
+<link rel="stylesheet" type="text/css"
+      href="{% static 'dashboard/datatables/buttons/1.6.0/css/buttons.bootstrap4.min.css' %}"/>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script src="{% static 'dashboard/datatables/1.10.20/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'dashboard/datatables/1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'dashboard/datatables/buttons/1.6.0/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'dashboard/datatables/buttons/1.6.0/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'dashboard/cloudflare/ajax/libs/jszip/3.1.3/jszip.min.js' %}"></script>
+<script src="{% static 'dashboard/cloudflare/ajax/libs/pdfmake/0.1.53/pdfmake.min.js' %}"></script>
+<script src="{% static 'dashboard/cloudflare/ajax/libs/pdfmake/0.1.53/vfs_fonts.js' %}"></script>
+<script src="{% static 'dashboard/datatables/buttons/1.6.0/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'dashboard/datatables/buttons/1.6.0/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'dashboard/datatables/select/1.3.1/js/dataTables.select.min.js' %}"></script>
+<script src="{% static 'dashboard/datatables/plug-ins/1.10.20/api/sum().js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/js/plugins/sweetalert.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/js/plugins/bootstrap-datepicker.min.js' %}"></script>
+
+
+<link rel="stylesheet" href="{% static 'dashboard/cloudflare/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/datatables/1.10.20/css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/datatables/buttons/1.6.0/css/buttons.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/datatables/select/1.3.1/css/select.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/main.css' %}">
+
+<script type="text/javascript">
+table = $('#sampleTable').DataTable({
+  columns: [
+  { data: "number"},
+  { data: "name"},
+  { data: "complaint_type"},
+  { data: "status_type"},
+  { data: "create_date"},
+  ],
+  "fnRowCallback": function( nRow, data, iDisplayIndex, iDisplayIndexFull ) {
+      if ( data.status_type == "Pending" )
+      {
+        console.log(data.status_type)
+        $('td', nRow).css('background-color', '#f2dede' );
+      }
+      else if ( data.status_type == "Submitted" )
+      {
+        $('td', nRow).css('background-color', '#dff0d8');
+      }
+      else if ( data.status_type == "Approved" )
+      {
+        $('td', nRow).css('background-color', '#d9edf7');
+      }
+      else
+      {
+        console.log(data.status_type)
+        $('td', nRow).css('background-color','#fcf8e3' );
+      }
+    },
+  dom: "<'row'"+
+                "<'col-sm-4 col-md-4'l>"+
+                "<'col-sm-4 col-md-4 text-center'B>"+
+                "<'col-sm-4 col-md-4'f>"+
+             ">"+
+             "<'row dt-table'"+
+                "<'col-sm-12 col-md-12'tr>"+
+             ">"+
+             "<'row'"+
+                "<'col-sm-12 col-md-5'i>"+
+                "<'col-sm-12 col-md-7'p>"+
+             ">",
+  buttons: [
+		    {
+                extend: 'collection',
+                text: '<i class="fa fa-print" aria-hidden="true"></i>Print',
+                buttons: [
+                             {
+                                extend: 'pdf',
+                                footer: true,
+                                text: '<i class="fa fa-file-pdf-o" aria-hidden="true"></i>pdf'
+                            },
+                            {
+                                extend: 'excel',
+                                footer: true,
+                                text: '<i class="fa fa-file-excel-o" aria-hidden="true"></i>excel'
+
+                            },
+                  ]
+            },
+            {
+				text: '<i class="fa fa-plus" aria-hidden="true"></i>Add',
+				titleAttr: 'Add',
+				action: function () {
+				console.log(window.location.host)
+				$(location).attr('href','http://'+window.location.host+'{% url 'dashboard:complaint_form'%}')
+				}
+			},
+  ],
+            columnDefs: [
+            {
+				targets: [5],
+				render: function (data, type, row, meta) {
+					return "<a class='btn btn-primary' role='button' href=" + "{% url 'admin:complaint_pdf' 12345 %}".replace(/12345/, row.pk) + ">Download</a>"
+				}
+			},
+			{% if request.user|is_secretory %}
+			{
+				targets: [6],
+				render: function (data, type, row, meta) {
+					return "<a class='btn btn-primary' role='button' href=" + "{% url 'dashboard:reply_compliant' 12345 %}".replace(/12345/, row.pk) + ">Reply</a>"
+				}
+			},
+			{% endif %}
+			{
+				targets: [0],
+				render: function (data, type, row, meta) {
+					return "<a href=" + "{% url 'dashboard:view_compliant' 12345 %}".replace(/12345/, row.pk) + ">" + data + "</a>"
+				}
+			}
+		],
+  data: {% autoescape off %}{{data}}{% endautoescape %}
+  });
+
+  $('#fromDate').datepicker({
+      	format: "yyyy-mm-dd",
+      	autoclose: true,
+      	todayHighlight: true
+      });
+     $('#toDate').datepicker({
+      	format: "yyyy-mm-dd",
+      	autoclose: true,
+      	todayHighlight: true
+      });
+     function filterByDate(){
+        var fromDate = $('#fromDate').val()
+        var toDate = $('#toDate').val()
+        $.ajax({
+            url: '{% url 'dashboard:filter_complaint_date' %}',
+            method: 'POST',
+            data: {'fromDate': fromDate, 'toDate': toDate},
+            headers: {"X-CSRFToken": '{{ csrf_token }}'},
+            success: function(data, status, jqXHR){
+                console.log(status, data)
+                if(jqXHR.status == 200){
+                    table.clear();
+                    table.rows.add(data).draw();
+            }
+            }
+        })
+     }
+
+
+
+</script>
+<!-- Google analytics script-->
+<script type="text/javascript">
+      if(document.location.hostname == 'pratikborsadiya.in') {
+      	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      	ga('create', 'UA-72504830-1', 'auto');
+      	ga('send', 'pageview');
+      }
+
+
+</script>
+{% endblock %}
+
+
+

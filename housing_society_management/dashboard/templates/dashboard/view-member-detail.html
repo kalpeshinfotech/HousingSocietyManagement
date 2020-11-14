@@ -1,0 +1,34 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Detail</h1>
+        <p>You are seeing detail of member.</p>
+    </div>
+</div>
+<div class="row user">
+    <div class="col-md-6">
+        <div class="tab-content">
+            <div class="tab-pane active" id="user-timeline">
+                <div class="timeline-post">
+                    <div class="post-media">
+                        <div class="content">
+                            <h5><a href="#"></a>{{member_name}}</h5>
+                            <p class="text-muted"><small>born on {{member_dob}}</small></p>
+                        </div>
+                    </div>
+                    <div class="post-content"><strong>
+                         Lives in <br/>{{member_flat_no}},<br/>{{member_society}},<br/>{{member_address}}<br/>
+                      flat registered on {{member_registration_date}}<br/> with no {{member_registration_no}}<br/>
+                      has renter {{member_flat_renter}}<br/>
+                      Owns a {{member_vehicle}}<br/> with no {{member_vehicle_registration_no}}<br/>
+                      </strong>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+

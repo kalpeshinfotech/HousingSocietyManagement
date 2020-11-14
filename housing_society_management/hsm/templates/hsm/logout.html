@@ -1,0 +1,10 @@
+{% extends "hsm/base.html" %}
+{% block content %}
+<h2><font color="White"> You are logged out</font> </h2>
+    <div class="border-top pt-3 ">
+        <small>
+            <font color="White">
+                Log In Again ?</font><a class="ml-2" href="{% url 'login' %}"><font color="White">Login</font></a>
+        </small>
+    </div>
+{% endblock content %}

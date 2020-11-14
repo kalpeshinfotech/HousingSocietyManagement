@@ -1,0 +1,11 @@
+.idea/*
+local/*
+bin/*
+include/*
+lib/*
+housing_society_management/hsm/migrations/*
+housing_society_management/hsm/migrations_190702/*
+*.pyc
+housing_society_management/static/*
+housing_society_management/sales/*
+housing_society_management/media/*

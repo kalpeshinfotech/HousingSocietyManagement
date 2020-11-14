@@ -1,1 +1,1 @@
-# HousingSocietyManagement
+# housing-society-managment

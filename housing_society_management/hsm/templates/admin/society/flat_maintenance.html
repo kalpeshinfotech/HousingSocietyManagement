@@ -1,0 +1,157 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_urls %}
+{% load i18n admin_urls static admin_list %}
+{% load humanize %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+  &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+  &rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ module_name }}</a>
+  &rsaquo; {% trans 'View All Maintenance' %}
+</div>
+{% endblock %}
+{% block content %}
+<table>
+
+</table>
+
+<div class="module{% if cl.has_filters %} filtered{% endif %}" id="changelist">
+  {% block search %}{% search_form cl %}{% endblock %}
+  {% block date_hierarchy %}{% if cl.date_hierarchy %}{% date_hierarchy cl %}{% endif %}{% endblock %}
+
+  {% block filters %}
+  {% if cl.has_filters %}
+  <div id="changelist-filter">
+    <h2>{% trans 'Filter' %}</h2>
+    {% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}
+  </div>
+  {% endif %}
+  {% endblock %}
+  {% block result_list %}
+  <div class="results">
+    <table class="table table-striped table-bordered nowrap" id="maintenance_datatable" width="100%">
+      <thead>
+      <tr>
+        <th><div class="text"><a href="#">Name</a></div></th>
+        <th><div class="text"><a href="#">Room No</a></div></th>
+        <th><div class="text"><a href="#">Bill Date</a></div></th>
+        <th><div class="text"><a href="#">Paid Date</a></div></th>
+        <th><div class="text"><a href="#">Medium</a></div></th>
+        <th><div class="text"><a href="#">State</a></div></th>
+        <th><div class="text"><a href="#">Bill Amount</a></div></th>
+        <th><div class="text"><a href="#">Paid Amount</a></div></th>
+        <th><div class="text"><a href="#">Interest on Dues</a></div></th>
+        <th><div class="text"><a href="#">unpaid</a></div></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      {% for row in summary %}
+      <!--<tr class="{% cycle 'row1' 'row2' %}">-->
+        <!--<td> {{ row.name| default:'<strong>Total</strong>' }} </td>-->
+        <!--<td> {{ row.flat_number| default:''}} </td>-->
+        <!--<td> {{ row.bill_date|date:"d b Y"}}</td>-->
+        <!--<td> {{ row.paid_date| default:''}}</td>-->
+        <!--<td> {{ row.payment_method| default:''}} </td>-->
+        <!--<td>{{ row.state| default:''}}</td>-->
+        <!--<td>{{ row.amount| default:0.0| intcomma}}</td>-->
+        <!--<td> <strong>{{ row.paid| default:0.0| intcomma}} </strong></td>-->
+        <!--<td> <strong>{{ row.dues| default:0.0| intcomma}} </strong></td>-->
+        <!--<td> <strong>{{ row.unpaid| default:0.0| intcomma}} </strong></td>-->
+      <!--</tr>-->
+      {% endfor %}
+       <!--<tr style="font-weight:bold; border-top:2px solid #DDDDDD;">-->
+            <!--<td> Total </td>-->
+            <!--<td> {{ summary_total.total }} </td>-->
+            <!--<td> {{ summary_total.total_sales | default:0 }}</td>-->
+        <!--</tr>-->
+      </tbody>
+      <tfoot>
+        <tr><th>TOTAL</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
+      </tfoot>
+    </table>
+<!--    <table id="maintenance_datatable" class="table table-striped table-bordered" style="width:100%">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th><div class="text"><a href="#">Name</a></div></th>-->
+<!--        <th><div class="text"><a href="#">Room No</a></div></th>-->
+<!--        <th><div class="text"><a href="#">Bill Date</a></div></th>-->
+<!--        <th><div class="text"><a href="#">Paid Date</a></div></th>-->
+<!--        <th><div class="text"><a href="#">Medium</a></div></th>-->
+<!--        <th><div class="text"><a href="#">State</a></div></th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody></tbody>-->
+<!--    </table>-->
+  </div>
+  {% endblock %}
+</div>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap.min.js"></script>-->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.bootstrap.min.css">
+
+<script>
+    if (!$) {
+        $ = django.jQuery;
+    }
+$(document).ready(function() {
+    var dt_table = $('#maintenance_datatable').DataTable({
+        "columns": [
+            { "data": "name" },
+            { "data": "flat_number" },
+            { "data": "bill_date_format" },
+            { "data": "paid_date_format" },
+            { "data": "payment_method" },
+            { "data": "state" },
+            { "data": "amount" },
+            { "data": "paid" },
+            { "data": "dues" },
+            { "data": "unpaid" }
+        ],
+        buttons: [
+            { extend: 'copyHtml5', footer: true },
+            { extend: 'excelHtml5', footer: true },
+            { extend: 'csvHtml5', footer: true },
+            { extend: 'pdfHtml5', footer: true },
+            { extend: 'colvis'}
+        ],
+        searching: true,
+        processing: false,
+        serverSide: false,
+        <!--initComplete : function () {-->
+        <!--dt_table.buttons().container().appendTo('#maintenance_datatable_wrapper .col-sm-6:eq(0)');-->
+        <!--},-->
+        stateSave: true,
+        lengthChange: false,
+        "scrollX": true,
+        {% autoescape off %}
+        data: {{summary}}{% endautoescape %},
+        footerCallback: function(tfoot, data, start, end, display) {
+          var api = this.api();
+          var lastRow = api.rows().count();
+          console.log("XX " + lastRow + ": " + api.row(0).data()[0]);
+          for (i = 1; i < api.columns().count(); i++) {
+            $(tfoot).find('th').eq(i).html(api.row(lastRow-1).data()[i]);
+          }
+        }
+    });
+    dt_table.row(dt_table.data().length).remove().draw(false);
+    dt_table.buttons().container().appendTo( '#maintenance_datatable_wrapper .col-sm-6:eq(0)' );
+});
+  </script>
+{% endblock %}

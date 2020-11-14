@@ -1,0 +1,190 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+{{ block.super }}
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i> Society Members </h1>
+        <p>Society Members</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active"><a href="#">Society Members</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-6">
+        <div class="tile">
+            <div class="tile-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="sampleTable">
+                        <thead>
+                        <tr>
+                            <th>Register</th>
+                            <th>Number</th>
+                            <th>Payment Method</th>
+                            <th>Reference</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>State</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-lg-6">
+        <div class="tile">
+            <div class="tile-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped" id="id_account_line_table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Transaction No</th>
+                            <th>Action</th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Holder Name</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/datatables/select/1.3.1/css/select.bootstrap4.min.css' %}"/>
+<!-- Page specific javascripts-->
+<!-- Data table plugin-->
+<script type="text/javascript" src="{% static 'dashboard/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/js/plugins/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'dashboard/datatables/select/1.3.1/js/dataTables.select.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'dashboard/js/plugins/sweetalert.min.js' %}"></script>
+
+<script type="text/javascript">
+
+function accountLine(transaction_id){
+    $('#id_account_line_table').dataTable().fnDestroy();
+    var deviceInfo = $('#id_account_line_table').DataTable({
+    aLengthMenu: [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
+    iDisplayLength: 10,
+    lengthChange: true,
+    order: [[0, 'asc']],
+    ordering: false,
+    ajax: {
+       url: '{% url 'dashboard:AccountLineDT' %}',
+       data: {'transaction_id': transaction_id}
+    },
+    select: true,
+    "language": {
+      "emptyTable": "No Transaction selected"
+    },
+    columnDefs: [
+        {targets: [0], searchable: false, visible: false},
+        ]
+    });
+}
+
+function register(transaction_id){
+      	swal({
+      		title: "Are you sure?",
+      		text: "You will not be able to undo this action!",
+      		type: "warning",
+      		showCancelButton: true,
+      		confirmButtonText: "Yes, Register it!",
+      		cancelButtonText: "No, cancel plx!",
+      		closeOnConfirm: false,
+      		closeOnCancel: false
+      	}, function(isConfirm) {
+      		if (isConfirm) {
+                $.ajax({
+                    url: "{% url 'dashboard:register_payment' %}",
+                    headers: {"X-CSRFToken": '{{ csrf_token }}'},
+                    method:'POST',
+                    data:{'transaction_id':transaction_id},
+                    success:function(resp, textStatus, jqXHR){
+                        resp_data = jqXHR.responseJSON
+                        if(resp_data["is_success"] == true){
+
+                            swal("Success!", "Transaction registered successfully.", "success");
+                        }
+
+                    },
+                    error:function( xhr, status, errorThrown){
+                        swal("Aborted", "No change reflected:)", "error");
+                    }
+                });
+
+      		} else {
+      			swal("Cancelled", "No change reflected:)", "error");
+      		}
+      	});
+      };
+
+var transaction_tbl = $('#sampleTable').DataTable({
+  columns: [
+  { data: "pk", "searchable": false},
+  { data: "number"},
+  { data: "payment_method"},
+  { data: "reference"},
+  { data: "amount"},
+  { data: "create_date"},
+  { data: "state"},
+  ],
+  data: {% autoescape off %}{{data}}{% endautoescape %},
+  select: true,
+  ordering: false,
+  columnDefs: [
+     {
+         targets: 1,
+         render : function(data, type, row, meta){
+            if(type === 'display'){
+               return $('<a>')
+                  .attr('href', '#')
+                  .attr('onclick', 'accountLine("'+row.pk+'")')
+                  .text(data)
+                  .wrap('<div></div>')
+                  .parent()
+                  .html();
+
+            } else {
+               return data;
+            }
+     }
+     },
+     {
+        targets: 0, searchable: false,
+         render : function(data, type, row, meta){
+            if(type === 'display'){
+            if(row.state=='INITIATED'){
+               return $('<a>')
+                  .attr('href', '#')
+                  .attr('role', 'button')
+                  .attr('class', 'btn btn-primary')
+                  .attr('onclick', 'register("'+row.pk+'")')
+                  .text('Register')
+                  .wrap('<div></div>')
+                  .parent()
+                  .html();
+                  }
+
+            } else {
+               return data;
+            }
+            return '';
+     }}
+     ],
+  });
+
+
+</script>
+{% endblock %}

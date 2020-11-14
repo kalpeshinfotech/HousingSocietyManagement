@@ -1,0 +1,30 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+      <div class="row user">
+        <div class="col-md-12">
+          <div class="profile">
+            <div class="info">
+                <p>Hello</p>
+              <h4>{% firstof user.get_full_name  user.get_username %}</h4>
+            </div>
+            <div class="cover-image"></div>
+          </div>
+            <div class="row user">
+        <div class="col-md-9">
+          <div class="tab-content">
+              <div class="tab-pane active" id="user-timeline">
+                  <div class="timeline-post">
+                <div class="post-media">
+                  <div class="content">
+                      <p><font color="Black">This is your profile.</font></p>
+                  </div>
+                </div>
+                  </div>
+
+              </div>
+          </div>
+        </div>
+            </div>
+        </div>
+      </div>
+{% endblock content %}

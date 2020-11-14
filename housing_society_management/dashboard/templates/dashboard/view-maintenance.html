@@ -1,0 +1,82 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+{{ block.super }}
+<div class="app-title">
+  <div>
+    <h1><i class="fa fa-file-text-o"></i> Maintenance</h1>
+    <p>A Printable Maintenance Format</p>
+  </div>
+  <ul class="app-breadcrumb breadcrumb">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+    <li class="breadcrumb-item"><a href="{% url 'dashboard:maintenance_table'%}">Maintenance</a></li>
+    <li class="breadcrumb-item"><a href="#">{{maintenance_name}}</a></li>
+  </ul>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="tile">
+      <section class="invoice">
+        <div class="row mb-4">
+          <div class="col-6">
+            <h2 class="page-header"><i class="fa fa-globe"></i>{{maintenance_name}}</h2>
+          </div>
+          <div class="col-6">
+            <h5 class="text-right">{{bill_date}}</h5>
+          </div>
+        </div>
+        <div class="row invoice-info">
+          <div class="col-4">From
+            <address><strong>{{society_name}}</strong><br>{{society_address}}<br><br><br>Email: </address>
+          </div>
+          <div class="col-4">To
+            <address><strong>{{flat_owner}}</strong><br>{{flat_number}}<br><br>Phone: <br>Email: </address>
+          </div>
+          <div class="col-4"><b>Maintenance #{{maintenance_name}}</b><br><br><b>Order ID:</b>{{maintenance_name}}<br><b>Payment Due:</b>{{paid_date}}<br><b>Account:</b> 968-34567</div>
+        </div>
+        <div class="row">
+          <div class="col-12 table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>Sr.</th>
+                <th>Service</th>
+                <th>Cost</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for line in maintenance_lines %}
+                 <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ line.service_name }}</td>
+                    <td>{{ line.cost }}</td>
+                 </tr>
+             {% endfor %}
+              <tr>
+                <td></td>
+                <td align="right"><strong>Sub Total:</strong></td>
+                <td>{{sub_total}}</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td align="right"><strong>Dues:</strong></td>
+                <td>{{total|sub:sub_total}}</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td align="right"><strong>Total Dues:</strong></td>
+                <td>{{total}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row d-print-none mt-2">
+          <div class="col-12 text-right"><a class="btn btn-primary" href="{% url 'admin:maintenance_pdf' pk %}" target="_blank"><i class="fa fa-print"></i>Download</a></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %}

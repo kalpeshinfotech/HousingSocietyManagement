@@ -1,0 +1,43 @@
+{% extends "hsm/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <legend class="border-bottom mb-4">
+        <font color="White">
+            MY COMPLAINTS
+        </font>
+           </legend>
+<div class="content-section">
+    <table class="table table-bordered " style="width:100%" id="complaint_desk_table">
+        <thead>
+         <tr>
+            <th>Date</th>
+            <th>Complaint</th>
+            <th>Comment</th>
+            <th>Status</th>
+            <th>Reply</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+
+    </table>
+        <div class="border-top pt-3 ">
+            <small class="text-muted">
+                Want to add complaints ?<a class="ml-2" href="{% url 'hsm_helpdesk' %}">Helpdesk</a>
+            </small>
+        </div>
+</div>
+{% block script %}
+{{block.super}}
+<script>
+    $(document).ready( function () {
+    $('#complaint_desk_table').DataTable(
+    {
+        "processing": true,
+        "serverSide": true,
+        "ajax": "{% url 'my_complaint_data_tables' %}"
+    }
+    );
+} );
+</script>
+{% endblock %}
+{% endblock content %}

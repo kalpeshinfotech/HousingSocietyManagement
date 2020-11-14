@@ -1,0 +1,119 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+{{ block.super }}
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Purchase Order Maker</h1>
+        <p>Purchase Order Form</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item"><a href="#">Purchase Order</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <h3 class="tile-title">Make Purchase Order</h3>
+            <div class="tile-body">
+                <form class="form-horizontal" action="" method="post">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">{{purchase_order_maker.date.label}}</label>
+                        <div class="col-md-8">
+                            {{purchase_order_maker.date.value}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">{{purchase_order_maker.purchase_order_no.label}}</label>
+                        <div class="col-md-8">
+                            {{purchase_order_maker.purchase_order_no.value}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">{{purchase_order_maker.society.label}}</label>
+                        <div class="col-md-8">
+                            {{purchase_order_maker.society}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">{{purchase_order_maker.vendor.label}}</label>
+                        <div class="col-md-8">
+                            {{purchase_order_maker.vendor}}asdfasd
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">{{purchase_order_maker.notes.label}}</label>
+                        <div class="col-md-8">
+                            {{purchase_order_maker.notes}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">{{purchase_order_maker.grand_total.label}}</label>
+                        <div class="col-md-8">
+                            {{purchase_order_maker.grand_total}}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-3"></label>
+                        <div class="col-md-8">
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3"></label>
+                        <div class="col-md-8">
+
+                        </div>
+                    </div>
+                    <!--          <div class="form-group row">-->
+                    <!--            <label class="control-label col-md-3">Gender</label>-->
+                    <!--            <div class="col-md-9">-->
+                    <!--              <div class="form-check">-->
+                    <!--                <label class="form-check-label">-->
+                    <!--                  <input class="form-check-input" type="radio" name="gender">Male-->
+                    <!--                </label>-->
+                    <!--              </div>-->
+                    <!--              <div class="form-check">-->
+                    <!--                <label class="form-check-label">-->
+                    <!--                  <input class="form-check-input" type="radio" name="gender">Female-->
+                    <!--                </label>-->
+                    <!--              </div>-->
+                    <!--            </div>-->
+                    <!--          </div>-->
+                    <!--          <div class="form-group row">-->
+                    <!--            <label class="control-label col-md-3">Identity Proof</label>-->
+                    <!--            <div class="col-md-8">-->
+                    <!--              <input class="form-control" type="file">-->
+                    <!--            </div>-->
+                    <!--          </div>-->
+                    <!--          <div class="form-group row">-->
+                    <!--            <div class="col-md-8 col-md-offset-3">-->
+                    <!--              <div class="form-check">-->
+                    <!--                <label class="form-check-label">-->
+                    <!--                  <input class="form-check-input" type="checkbox">I accept the terms and conditions-->
+                    <!--                </label>-->
+                    <!--              </div>-->
+                    <!--            </div>-->
+                    <!--          </div>-->
+                    <div class="tile-footer">
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-3">
+                                <button class="btn btn-primary" type="submit"><i
+                                        class="fa fa-fw fa-lg fa-check-circle"></i>Submit
+                                </button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i
+                                    class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="clearix"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "hsm/base.html" %}
+{% block content %}
+<legend class="border-bottom mb-4">
+    <font color="White">
+            SOCIETY MEMBERS DETAILS
+    </font>
+</legend>
+<div class="content-section">
+    <table class="table table-bordered " style="width:100%" id="Member_table">
+        <thead>
+         <tr>
+            <th>Name</th>
+            <th>Street1</th>
+            <th>Street2</th>
+            <th>City</th>
+            <th>State</th>
+             <th>Country</th>
+             <th>Zip Code</th>
+             <th>Mobile no</th>
+             <th>Alt Mobile no</th>
+             <th>Email Id</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+{% block script %}
+{{block.super}}
+<script>
+    $(document).ready( function () {
+    $('#Member_table').DataTable(
+    {
+        "processing": true,
+        "serverSide": true,
+        "ajax": "{% url 'Member_data_tables' %}"
+    }
+    );
+} );
+</script>
+{% endblock %}
+{% endblock content %}

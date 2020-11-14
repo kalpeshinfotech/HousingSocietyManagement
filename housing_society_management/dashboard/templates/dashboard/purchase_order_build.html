@@ -1,0 +1,161 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+{{ block.super }}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-file-text-o"></i>Purchase Order</h1>
+        <p>Build a Purchase Order</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Purchase Order</a></li>
+        <li class="breadcrumb-item"><a href="#"> {{purchase_order_maker.number.value}}</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <form class="form-horizontal" action="" method="post">
+                {% csrf_token %}
+                <section class="invoice">
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <h2 class="page-header">
+                                <i class="fa fa-globe"></i>
+                                {{purchase_order_maker.number.value}}
+                            </h2>
+                            {{purchase_order_maker.number}}
+                        </div>
+                        <div class="col-6">
+                            <h5 class="text-right"> Order Date:
+                                {{purchase_order_maker.order_date.value|date:'d-M-Y'}}</h5>
+                            {{purchase_order_maker.order_date}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-1"><strong>{{purchase_order_maker.vendor.label}}</strong></label>
+                        <div class="col-md-2">
+                            {{purchase_order_maker.vendor}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-1"><strong>{{purchase_order_maker.notes.label}}</strong></label>
+                        <div class="col-md-2">
+                            {{purchase_order_maker.notes}}
+                        </div>
+                    </div>
+                    {{ purchase_order_lines.management_form }}
+                    <div id="form_set">
+                        <table class='table table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                        {% for purchaseLineForm in purchase_order_lines %}
+                        {{form.non_field_errors}}
+                        {{form.errors}}
+                            <table class='dynamic-form-row table table-striped'>
+                            <thead>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{{purchaseLineForm.product}}</td>
+                                <td>{{purchaseLineForm.quantity}}</td>
+                                <td>{{purchaseLineForm.unit_price}}</td>
+                                <td>
+                                    <button type="button" class="remove-form-row btn btn-secondary fa fa-trash"></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </div>
+                    <button id="add_more" type="button" class="btn btn-secondary"><i class="fa fa-plus"
+                                                                                     aria-hidden="true"></i>Add
+                    </button>
+
+                    <div class="tile-footer">
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-3">
+                                <button class="btn btn-primary" type="submit" id="id_btn_create"><i
+                                        class="fa fa-fw fa-lg fa-check-circle"></i>Submit
+                                </button>&nbsp;&nbsp;&nbsp;<button class="btn btn-secondary" type="reset"><i
+                                    class="fa fa-fw fa-lg fa-times-circle"></i>Cancel
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="empty_form" style="display:none">
+    <table class='dynamic-form-row table table-striped'>
+        <tbody>
+        <tr>
+            <td>{{purchase_order_lines.empty_form.product}}</td>
+            <td>{{purchase_order_lines.empty_form.quantity}}</td>
+            <td>{{purchase_order_lines.empty_form.unit_price}}</td>
+            <td>
+                <button type="button" class="remove-form-row btn btn-secondary fa fa-trash"></button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+{% block script %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/table-to-json@0.13.0/lib/jquery.tabletojson.min.js"
+        integrity="sha256-AqDz23QC5g2yyhRaZcEGhMMZwQnp8fC6sCZpf+e7pnw=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+$('#add_more').click(function() {
+	var form_idx = $('#id_form-TOTAL_FORMS').val();
+	$('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+	$('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+	console.log(form_idx);
+});
+
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+
+function deleteForm(prefix, btn) {
+    var total = $('#id_form-TOTAL_FORMS').val();
+    console.log(total);
+    if (total > 1){
+        btn.closest('.dynamic-form-row').remove();
+        var forms = $('.dynamic-form-row');
+        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+        for (var i=0, formCount=forms.length; i<formCount; i++) {
+            $(forms.get(i)).find(':input').each(function() {
+                updateElementIndex(this, prefix, i);
+            });
+        }
+        $('#id_form-TOTAL_FORMS').val(total-1)
+    }
+    return false;
+}
+
+$(document).on('click', '.remove-form-row', function(e){
+    e.preventDefault();
+    deleteForm('form', $(this));
+    return false;
+});
+
+</script>
+{% endblock %}

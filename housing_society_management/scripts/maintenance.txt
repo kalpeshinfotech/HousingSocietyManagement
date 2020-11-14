@@ -1,0 +1,68 @@
+create or replace function create_maintenance() returns integer
+as $$
+begin
+	--create maintenance
+	INSERT INTO maintenance(name, state, bill_date, flat_id, total, create_date, write_date)
+	SELECT concat_ws('_', 'M', TO_CHAR(NOW() :: DATE, 'yyyymmdd'), rf.id, rf.society_id) m_name,
+	       'UNPAID',
+	       CURRENT_DATE,
+	       rf.id,
+	       0.0,
+	       CURRENT_TIMESTAMP,
+	       CURRENT_TIMESTAMP
+	FROM res_flats AS rf
+	WHERE rf.is_active=true;
+
+	-- create maintenance lines
+	insert into maintenance_lines(create_date, write_date, maintenance_id, service_id, cost, society_service_id)
+	select current_timestamp, current_timestamp, m.id, service_type_id, price, ssl.id from society_service_lines as ssl
+	inner join res_flats rf on rf.society_id=ssl.society_id
+	inner join maintenance m on m.flat_id=rf.id
+	left join maintenance_lines m_l on m.id=m_l.maintenance_id
+	group by m.id, service_type_id, price, ssl.id
+	having count(m_l.maintenance_id) = 0
+	order by m.id;
+
+
+	--update sub_total with old
+	update maintenance m set sub_total=maintenance_agg.sub_total, total=maintenance_agg.sub_total from
+	(select sum(ml."cost") sub_total, maintenance_id from maintenance_lines as ml group by ml.maintenance_id) as maintenance_agg
+	where m.id=maintenance_agg.maintenance_id and m.sub_total is null;
+	return 0;
+end
+$$
+language plpgsql;
+
+
+create or replace function update_maintenance_dues() returns integer
+as $$
+begin
+	--update dues in maintenance lines
+	update maintenance_lines ml set "cost"=due_chart.due_chrg from
+	(select
+	ml.id as ml_id,
+	case when (current_date::date - m.bill_date)>rs.maintenance_due_days then sum(rs.maintenance_due_charge) else 0.0 end due_chrg
+	from maintenance_lines as ml
+	inner join maintenance m on m.id=ml.maintenance_id and m.state='UNPAID' and m.total <= m.sub_total
+	inner join society_service_lines ssl on ml.society_service_id=ssl.id
+	inner join services s on s.id=ssl.service_type_id and s."name"='Dues'
+	inner join res_societies rs on rs.id=ssl.society_id
+	where ml."cost"=0
+	group by ml.maintenance_id, ml.id, s.name, rs.maintenance_due_charge, rs.maintenance_due_days, m.bill_date
+	) as due_chart
+	where ml.id=due_chart.ml_id;
+
+
+	--update total in maintenance with dues (old)
+	update maintenance m set total=maintenance_agg.total from
+	(select
+	sum(ml."cost") total,
+	maintenance_id
+	from maintenance_lines as ml
+	inner join maintenance m on m.id=ml.maintenance_id and m.state='UNPAID' and m.total <= m.sub_total
+	group by ml.maintenance_id) as maintenance_agg
+	where m.id=maintenance_agg.maintenance_id;
+	return 0;
+end
+$$
+language plpgsql;

@@ -1,0 +1,427 @@
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!--<link type="text/css" rel="stylesheet" href="{% static 'hsm/css/sheet.css' %}" >-->
+
+<link type="text/css" rel="stylesheet" href="{% static 'hsm/css/maintenance_report.css' %}" >
+<!--<link type="text/css" rel="stylesheet" href="/home/matchpoint/workspace/hs/housing_society_management/static/hsm/css/maintenance_report.css" >-->
+<style type="text/css"></style>
+<div class="ritz grid-container" dir="ltr">
+   <table class="waffle no-grid" cellspacing="0" cellpadding="0">
+      <thead>
+         <tr>
+            <!--<th class="row-header freezebar-origin-ltr"></th>-->
+            <!--<th id="0C0" style="width:127px" class="column-headers-background">a</th>-->
+            <!--<th id="0C1" style="width:123px" class="column-headers-background">b</th>-->
+            <!--<th id="0C2" style="width:413px" class="column-headers-background">c</th>-->
+            <!--<th id="0C3" style="width:231px" class="column-headers-background">d</th>-->
+            <!--<th id="0C4" style="width:35px" class="column-headers-background">e</th>-->
+         </tr>
+      </thead>
+      <tbody>
+         <tr style='height:30px;'>
+            <td ></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2" dir="ltr" colspan="2">{{society_name}}</td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s4" dir="ltr" colspan="2">{{society_address}}</td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s4" dir="ltr">//////NALASOPARA (EAST)</td>
+            <td class="s5" dir="ltr">/////DIST, THANE - 401203</td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s6"></td>
+            <td class="s6"></td>
+            <td class="s6"></td>
+            <td class="s7"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s8" dir="ltr">Name :</td>
+            <td class="s5" dir="ltr">{{ flat_owner }}</td>
+            <td class="s8" dir="ltr">Bill No :</td>
+            <td class="s9" dir="ltr">{{ maintenance_name }}</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s10" dir="ltr">Flat No :</td>
+            <td class="s5" dir="ltr">{{ flat_number }}</td>
+            <td class="s1"></td>
+            <td class="s11"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s10" dir="ltr">Bill for the Month of  :</td>
+            <td class="s13" dir="ltr">{{ bill_date| date:"M Y" }}</td>
+            <td class="s10" dir="ltr">Bill Date:</td>
+            <td class="s14" dir="ltr">{{ paid_date| date:"d/m/Y" }}</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s10" dir="ltr">Sr No</td>
+            <td class="s15" dir="ltr" colspan="2">Particulars</td>
+            <td class="s10" dir="ltr">Amount(₹)</td>
+         </tr>
+         {% for line in maintenance_lines%}
+             <tr style='height:20px;'>
+                <td class="s1"></td>
+                <td class="s16" dir="ltr">{{ forloop.counter }}</td>
+                <td class="s14" dir="ltr" colspan="2">{{ line.service_name }}</td>
+                <td class="s16" dir="ltr">{{ line.cost }}</td>
+             </tr>
+         {% endfor %}
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s8" dir="ltr">Total(₹)</td>
+            <td class="s16" dir="ltr">{{ sub_total }}</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s17" dir="ltr">Previous Dues</td>
+            <td class="s17" dir="ltr">0</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s17" dir="ltr">Interest on Dues</td>
+            <td class="s18" dir="ltr">0</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s6"></td>
+            <td class="s6"></td>
+            <td class="s10" dir="ltr">Grand Total (₹)</td>
+            <td class="s16" dir="ltr">{{total}}</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s15" dir="ltr" colspan="3">(Rupee:) {{total_in_word}}.</td>
+            <td class="s7"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s6"></td>
+            <td class="s6"></td>
+            <td class="s6"></td>
+            <td class="s7"></td>
+         </tr>
+         <tr style='height:20px;'>
+            <td class="s1"></td>
+            <td class="s2" dir="ltr">NOTE:</td>
+            <td class="s19 softmerge" dir="ltr">
+               <div class="softmerge-inner" style="width: 400px; left: -1px;">1. PAYMENT SHOULD BE MADE BY A/C PAYEE CHEQUE ONLY.</div>
+            </td>
+            <td class="s20"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s19 softmerge" dir="ltr">
+               <div class="softmerge-inner" style="width: 400px; left: -1px;">2. PAYMENT SHOULD BE MADE ON OR BEFORE 30TH OF EVERY MONTH.</div>
+            </td>
+            <td class="s20"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s21" dir="ltr">3. INTEREST WILL BE CHARGES 0.21% P.A</td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2" dir="ltr"></td>
+            <td class="s22" dir="ltr" colspan="2">For,</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s22" dir="ltr" colspan="2">{{society_name}}</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s6"></td>
+            <td class="s6"></td>
+            <td class="s15" dir="ltr" colspan="2">SECRETARY/TREASURER </td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2" dir="ltr" colspan="2">{{society_name}}</td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s23" dir="ltr" colspan="4">{{society_address}}</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2" dir="ltr" colspan="2">RECEIPT</td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2" dir="ltr">No: <span style="font-weight:normal;">[{{ maintenance_name }}]</span></td>
+            <td class="s4" dir="ltr" colspan="2"><span style="font-weight:bold;">Flat No</span>:{{ flat_number }}</td>
+            <td class="s24 softmerge" dir="ltr">
+               <div class="softmerge-inner" style="width: 176px; left: -10px;">Date:<span style="font-weight:normal;">{{ paid_date| date:"d/m/Y"  }}</span></div>
+<!--               Date:<span style="font-weight:normal;">{{ paid_date| date:"d/m/Y"  }}</span>-->
+            </td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s25" dir="ltr" colspan="4" rowspan="2">Received with thanks from : {{ flat_owner }} an amount of  Rs 240(Two Hundred and forty only.) by cash being amount recieved against Bill {{ maintenance_name }} dated {{ bill_date| date:"d/m/Y" }}</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s26" dir="ltr"></td>
+            <td class="s22" dir="ltr" colspan="2">For,</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td></td>
+            <td class="s22" dir="ltr" colspan="2">{{society_name}}</td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s6"></td>
+            <td class="s6"></td>
+            <td class="s27" dir="ltr">SECRETARY/TREASURER</td>
+            <td class="s15" dir="ltr"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s1"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s2"></td>
+            <td class="s3"></td>
+         </tr>
+         <tr style='height:20px;'>
+
+            <td class="s3"></td>
+            <td class="s6"></td>
+            <td class="s6"></td>
+            <td class="s6"></td>
+            <td class="s7"></td>
+         </tr>
+      </tbody>
+   </table>
+</div>
+<script type='text/javascript' nonce='T2aIZJMoDk6TyPmdwrKu4g'>
+   function posObj(sheet, id, row, col, x, y) {
+     var rtl = false;
+     var sheetElement = document.getElementById(sheet);
+     if (!sheetElement) {
+       sheetElement = document.getElementById(sheet + '-grid-container');
+     }
+     if (sheetElement) {
+       rtl = sheetElement.getAttribute('dir') == 'rtl';
+     }
+     var r = document.getElementById(sheet+'R'+row);
+     var c = document.getElementById(sheet+'C'+col);
+     if (r && c) {
+       var objElement = document.getElementById(id);
+       var s = objElement.style;
+       var t = y;
+       while (r && r != sheetElement) {
+         t += r.offsetTop;
+         r = r.offsetParent;
+       }
+       var offsetX = x;
+       while (c && c != sheetElement) {
+         offsetX += c.offsetLeft;
+         c = c.offsetParent;
+       }
+       if (rtl) {
+         offsetX -= objElement.offsetWidth;
+       }
+       s.left = offsetX + 'px';
+       s.top = t + 'px';
+       s.display = 'block';
+       s.border = '1px solid #000000';
+     }
+   };
+   function posObjs() {
+   };
+   posObjs();
+</script>

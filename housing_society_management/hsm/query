@@ -1,0 +1,54 @@
+maintenance
+"""
+INSERT INTO maintenance(name, state, bill_date, flat_id, total, create_date, write_date)
+SELECT concat_ws('_', 'M', TO_CHAR(NOW() :: DATE, 'yyyymmdd'), rf.id, rf.society_id) m_name,
+       'UNPAID',
+       CURRENT_DATE,
+       rf.id,
+       0.0,
+       CURRENT_TIMESTAMP,
+       CURRENT_TIMESTAMP
+FROM res_flats AS rf
+WHERE rf.is_active=TRUE
+	"""
+
+maintenance lines
+"""
+INSERT INTO maintenance_lines(create_date, write_date, maintenance_id, service_id, cost)
+SELECT CURRENT_TIMESTAMP,
+       CURRENT_TIMESTAMP,
+       m.id,
+       service_type_id,
+       price
+FROM society_service_lines AS ssl
+INNER JOIN res_flats rf ON rf.society_id=ssl.society_id
+INNER JOIN maintenance m ON m.flat_id=rf.id
+LEFT JOIN maintenance_lines m_l ON m.id=m_l.maintenance_id
+GROUP BY m.id,
+         service_type_id,
+         price
+HAVING count(m_l.maintenance_id) = 0
+ORDER BY m.id
+"""
+
+update sub_total
+"""
+update maintenance m set sub_total=maintenance_agg.sub_total from
+(select sum(ml."cost") sub_total, maintenance_id from maintenance_lines as ml group by ml.maintenance_id) as maintenance_agg
+where m.id=maintenance_agg.maintenance_id and m.sub_total is null
+"""
+
+
+update total
+"""
+update maintenance m set total=maintenance_agg.total from
+(select
+case when (current_date::date - m.bill_date)>rs.maintenance_due_days then sum(ml."cost")+rs.maintenance_due_charge else sum(ml."cost") end total,
+maintenance_id
+from maintenance_lines as ml
+inner join maintenance m on m.id=ml.maintenance_id and m.state='UNPAID' and m.total <= m.sub_total
+inner join res_flats rf on m.flat_id=rf.id
+inner join res_societies rs on rs.id=rf.society_id
+group by ml.maintenance_id, m.bill_date, rs.maintenance_due_days, rs.maintenance_due_charge) as maintenance_agg
+where m.id=maintenance_agg.maintenance_id
+"""

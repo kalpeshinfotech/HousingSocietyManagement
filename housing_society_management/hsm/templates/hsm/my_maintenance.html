@@ -1,0 +1,36 @@
+{% extends "hsm/base.html" %}
+{% block content %}
+<legend class="border-bottom mb-4">
+    <font color="White">
+            MY MAINTENANCE
+    </font>
+</legend>
+<div class="content-section">
+    <table class="table table-bordered " style="width:100%" id="Maintenance_table">
+        <thead>
+         <tr>
+            <th>Maintenance Id</th>
+            <th>Flat No</th>
+            <th>Society</th>
+            <th>Notes</th>
+            <th>Payment Status</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+{% block script %}
+{{block.super}}
+<script>
+    $(document).ready( function () {
+    $('#Maintenance_table').DataTable(
+    {
+        "processing": true,
+        "serverSide": true,
+        "ajax": "{% url 'my_Maintenance_data_tables' %}"
+    }
+    );
+} );
+</script>
+{% endblock %}
+{% endblock content %}

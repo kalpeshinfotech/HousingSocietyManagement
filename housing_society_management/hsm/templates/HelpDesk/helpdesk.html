@@ -1,0 +1,230 @@
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link type="text/css" rel="stylesheet" href="{% static 'HelpDesk/HelpDesk.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'HelpDesk/sheet.css' %}">
+<div class="ritz grid-container" dir="ltr">
+    <table class="waffle" cellspacing="0" cellpadding="0">
+        <thead>
+        <tr>
+<!--            <th class="row-header freezebar-origin-ltr"></th>-->
+<!--            <th id="0C0" style="width:204px" class="column-headers-background">A</th>-->
+<!--            <th id="0C1" style="width:204px" class="column-headers-background">B</th>-->
+<!--            <th id="0C2" style="width:204px" class="column-headers-background">C</th>-->
+<!--            <th id="0C3" style="width:204px" class="column-headers-background">D</th>-->
+<!--            <th id="0C4" style="width:204px" class="column-headers-background">E</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr style='height:20px;'>
+            <th id="0R0" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s0"></td>
+            <td class="s1" dir="ltr"></td>
+            <td class="s2" dir="ltr">COMPLAINT TICKET</td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R1" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s4" dir="ltr"></td>
+            <td class="s5"></td>
+            <td class="s5"></td>
+            <td class="s6"></td>
+            <td class="s7"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R2" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s8" dir="ltr">Date : </td>
+            <td class="s0" dir="ltr">{{compliant_date}}</td>
+            <td class="s0"></td>
+            <td class="s1" dir="ltr">Ticket-No : </td>
+            <td class="s9">{{compliant_ticket_no}}</td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R3" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s10"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R4" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R5" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s11" dir="ltr">Subject : </td>
+            <td class="s0" dir="ltr">{{compliant_subject}}</td>
+            <td class="s0"></td>
+            <td class="s11" dir="ltr">Complaint Type : </td>
+            <td class="s3" dir="ltr">{{user_complaint_type}}</td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R6" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R7" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s12"></td>
+            <td class="s0"></td>
+            <td class="s12"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R8" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s1" dir="ltr">Comment : </td>
+            <td class="s0" dir="ltr">{{compliant_comment}}</td>
+            <td class="s13"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R9" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s13"></td>
+            <td class="s0"></td>
+            <td class="s13"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R10" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s10"></td>
+            <td class="s0"></td>
+            <td class="s10"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R11" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s1" dir="ltr">Status : </td>
+            <td class="s0" dir="ltr">{{compliant_current_status}}</td>
+            <td class="s10"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R12" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s10"></td>
+            <td class="s0"></td>
+            <td class="s10"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R13" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R14" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s11" dir="ltr">Reply : </td>
+            <td class="s0" dir="ltr">{{compliant_reply}}</td>
+            <td class="s0"></td>
+             <td class="s11" dir="ltr">Uploaded a file or image : </td>
+            {% if compliant_upload_file %}
+            <td class="s3" dir="ltr">Yes</td>
+            {% endif %}
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R15" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s0"></td>
+            <td class="s3"></td>
+        </tr>
+        <tr style='height:20px;'>
+            <th id="0R16" style="height: 20px;" class="row-headers-background">
+                <div class="row-header-wrapper" style="line-height: 20px;"></div>
+            </th>
+            <td class="s5"></td>
+            <td class="s5"></td>
+            <td class="s5"></td>
+            <td class="s5"></td>
+            <td class="s14"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script type='text/javascript' nonce='4p+lE7L9ELxi1SH4A8lCwA'>
+function posObj(sheet, id, row, col, x, y) {
+  var rtl = false;
+  var sheetElement = document.getElementById(sheet);
+  if (!sheetElement) {
+    sheetElement = document.getElementById(sheet + '-grid-container');
+  }
+  if (sheetElement) {
+    rtl = sheetElement.getAttribute('dir') == 'rtl';
+  }
+  var r = document.getElementById(sheet+'R'+row);
+  var c = document.getElementById(sheet+'C'+col);
+  if (r && c) {
+    var objElement = document.getElementById(id);
+    var s = objElement.style;
+    var t = y;
+    while (r && r != sheetElement) {
+      t += r.offsetTop;
+      r = r.offsetParent;
+    }
+    var offsetX = x;
+    while (c && c != sheetElement) {
+      offsetX += c.offsetLeft;
+      c = c.offsetParent;
+    }
+    if (rtl) {
+      offsetX -= objElement.offsetWidth;
+    }
+    s.left = offsetX + 'px';
+    s.top = t + 'px';
+    s.display = 'block';
+    s.border = '1px solid #000000';
+  }
+};
+function posObjs() {
+};
+posObjs();
+</script>
